@@ -1,20 +1,22 @@
-# ---- Core (needed for the text assistant) ----
+# Everything the assistant needs, including real phone calls.
+#   pip install -r requirements.txt
+#
+# Microphone/speaker support is deliberately NOT here -- it needs system
+# libraries that often aren't installed, and pip aborts the whole install when
+# one package fails to build. Want to talk to it out loud on your laptop?
+#   pip install -r requirements-voice.txt
+
+# ---- The brain: pick either, or install both ----
 anthropic>=0.40.0          # Claude API
-openai>=1.50.0             # ChatGPT / GPT API (optional alternative to Claude)
+openai>=1.50.0             # ChatGPT / GPT API
 python-dotenv>=1.0.0       # loads your API keys from the .env file
 
-# ---- Phone calls + web server (needed for real calling) ----
+# ---- Phone calls + web server ----
 fastapi>=0.115.0
 uvicorn[standard]>=0.30.0
 twilio>=9.0.0              # places real phone calls / sends SMS
 python-multipart>=0.0.9    # REQUIRED: lets the server read Twilio's form posts
 
-# ---- Talking to your laptop mic + speakers (optional) ----
-# On Linux you may also need: sudo apt install portaudio19-dev espeak
-SpeechRecognition>=3.10.0
-pyttsx3>=2.90
-pyaudio>=0.2.14
-
 # ---- Tests ----
 pytest>=8.0.0
-httpx>=0.27.0             # used by the test client
+httpx>=0.27.0              # used by the test client

@@ -9,12 +9,29 @@ source .venv/bin/activate       # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-If `pyaudio` fails to install, that's fine — it's only for microphone input.
-Everything else works. To fix it later:
+That's everything for text chat, bookings and **real phone calls**.
 
-- **Ubuntu/Debian:** `sudo apt install portaudio19-dev espeak && pip install pyaudio`
-- **macOS:** `brew install portaudio && pip install pyaudio`
+### Optional: your laptop's microphone and speakers
+
+Only needed for `--voice`. It's a separate file because these packages compile
+against system libraries, and if one fails to build, pip abandons the *whole*
+install — so keeping them apart stops a missing audio library from leaving you
+with no assistant at all.
+
+Install the system libraries first:
+
+- **Ubuntu/Debian:** `sudo apt install portaudio19-dev espeak`
+- **macOS:** `brew install portaudio`
 - **Windows:** `pip install pipwin && pipwin install pyaudio`
+
+Then:
+
+```bash
+pip install -r requirements-voice.txt
+```
+
+If this fails, don't worry about it — everything except `--voice` still works,
+including phoning restaurants.
 
 ## Step 2 — try it with no key at all
 
@@ -62,6 +79,7 @@ python -m assistant.cli
 ## Step 4 — talk to it
 
 ```bash
+pip install -r requirements-voice.txt    # if you haven't already, see step 1
 python -m assistant.cli --voice
 ```
 

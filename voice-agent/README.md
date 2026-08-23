@@ -26,6 +26,10 @@ pip install -r requirements.txt
 python -m assistant.cli --provider echo
 ```
 
+> That installs everything for text chat, bookings and real phone calls.
+> Talking to it with your laptop microphone is an optional extra —
+> `requirements-voice.txt`, see [guide 2](docs/02-run-locally.md).
+
 Then type: `book a table at Blue Fin Sushi tomorrow 8pm for 3 people`
 
 `--provider echo` runs a tiny offline stand-in brain so you can watch the

@@ -1,0 +1,16 @@
+# OPTIONAL: talk to your assistant with your laptop's microphone and speakers
+# (`python -m assistant.cli --voice`).
+#
+# These need system libraries FIRST, or pyaudio fails to compile:
+#
+#   Ubuntu/Debian   sudo apt install portaudio19-dev espeak
+#   macOS           brew install portaudio
+#   Windows         pip install pipwin && pipwin install pyaudio
+#
+# Then:  pip install -r requirements-voice.txt
+#
+# Everything else -- text chat, bookings, real phone calls -- works without these.
+
+SpeechRecognition>=3.10.0
+pyttsx3>=2.90
+pyaudio>=0.2.14

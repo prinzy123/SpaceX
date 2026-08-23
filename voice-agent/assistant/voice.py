@@ -8,7 +8,7 @@ Both are optional. If the audio libraries are missing, the assistant still works
 perfectly by typing -- you just get a clear message instead of a crash.
 
 Install on Ubuntu/Debian:  sudo apt install portaudio19-dev espeak
-Then:                      pip install SpeechRecognition pyttsx3 pyaudio
+Then:                      pip install -r requirements-voice.txt
 """
 
 from __future__ import annotations
@@ -48,9 +48,9 @@ def listen(timeout: int = 8, phrase_limit: int = 20) -> str:
         import speech_recognition as sr
     except ImportError as exc:
         raise VoiceUnavailable(
-            "Speech recognition is not installed. Run:\n"
-            "  pip install SpeechRecognition pyaudio\n"
-            "(on Ubuntu first: sudo apt install portaudio19-dev)"
+            "Microphone support is not installed. Run:\n"
+            "  pip install -r requirements-voice.txt\n"
+            "(on Ubuntu first: sudo apt install portaudio19-dev espeak)"
         ) from exc
 
     recogniser = sr.Recognizer()
