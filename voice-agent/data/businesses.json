@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Mama Put Kitchen",
+    "category": "restaurant",
+    "phone": "+2348030000001",
+    "city": "Lagos",
+    "tags": ["nigerian", "jollof", "dinner"],
+    "notes": "Takes phone bookings only. Busiest 19:00-21:00."
+  },
+  {
+    "name": "Blue Fin Sushi",
+    "category": "restaurant",
+    "phone": "+2348030000002",
+    "city": "Lagos",
+    "tags": ["japanese", "sushi", "date night"],
+    "notes": "Has a vegetarian set menu."
+  },
+  {
+    "name": "Bright Smile Dental",
+    "category": "dentist",
+    "phone": "+2348030000003",
+    "city": "Lagos",
+    "tags": ["clinic", "dentist", "checkup"],
+    "notes": "Ask for Dr Ade. Cleanings take 45 minutes."
+  },
+  {
+    "name": "The Cut Above Barbers",
+    "category": "salon",
+    "phone": "+2348030000004",
+    "city": "Lagos",
+    "tags": ["haircut", "barber", "grooming"],
+    "notes": "Walk-ins before 11:00, appointments after."
+  },
+  {
+    "name": "Swift Auto Garage",
+    "category": "mechanic",
+    "phone": "+2348030000005",
+    "city": "Lagos",
+    "tags": ["car", "service", "repair"],
+    "notes": "Drop off before 09:00 for same-day service."
+  }
+]

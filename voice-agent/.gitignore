@@ -1,0 +1,9 @@
+.env
+*.pyc
+__pycache__/
+.venv/
+venv/
+data/bookings.json
+data/preferences.json
+data/calls.json
+.pytest_cache/

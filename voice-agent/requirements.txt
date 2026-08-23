@@ -1,0 +1,20 @@
+# ---- Core (needed for the text assistant) ----
+anthropic>=0.40.0          # Claude API
+openai>=1.50.0             # ChatGPT / GPT API (optional alternative to Claude)
+python-dotenv>=1.0.0       # loads your API keys from the .env file
+
+# ---- Phone calls + web server (needed for real calling) ----
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+twilio>=9.0.0              # places real phone calls / sends SMS
+python-multipart>=0.0.9    # REQUIRED: lets the server read Twilio's form posts
+
+# ---- Talking to your laptop mic + speakers (optional) ----
+# On Linux you may also need: sudo apt install portaudio19-dev espeak
+SpeechRecognition>=3.10.0
+pyttsx3>=2.90
+pyaudio>=0.2.14
+
+# ---- Tests ----
+pytest>=8.0.0
+httpx>=0.27.0             # used by the test client

@@ -1,0 +1,185 @@
+# Paste this into ChatGPT -> Create a GPT -> Configure -> Actions -> Schema.
+# Replace the server URL with your own ngrok / deployed URL first.
+# Authentication: API Key -> Custom header name "X-API-Key" -> value = SERVER_API_KEY from your .env
+openapi: 3.1.0
+info:
+  title: Personal Booking Assistant
+  description: Books tables, reserves appointments and phones businesses on the user's behalf.
+  version: 1.0.0
+servers:
+  - url: https://REPLACE-ME.ngrok-free.app
+    description: Your running assistant server
+
+paths:
+  /assistant/message:
+    post:
+      operationId: talkToAssistant
+      summary: Send an instruction to the booking assistant
+      description: >
+        Use for anything to do with bookings, reservations, appointments or
+        phoning a business. The assistant handles the details itself and replies
+        in plain language. Pass the user's request through almost verbatim.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [message]
+              properties:
+                message:
+                  type: string
+                  description: What the user wants, e.g. "book a table for 4 on Friday at 7pm"
+                session_id:
+                  type: string
+                  description: Keep the same value all conversation so context is remembered.
+      responses:
+        "200":
+          description: The assistant's reply
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reply:
+                    type: string
+                  session_id:
+                    type: string
+                  actions_taken:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        tool: { type: string }
+                        ok: { type: boolean }
+
+  /bookings:
+    get:
+      operationId: listBookings
+      summary: List the user's upcoming bookings
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer, default: 20 }
+      responses:
+        "200":
+          description: Upcoming bookings
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bookings:
+                    type: array
+                    items: { $ref: "#/components/schemas/Booking" }
+
+  /bookings/{booking_id}/cancel:
+    post:
+      operationId: cancelBooking
+      summary: Cancel a booking
+      parameters:
+        - name: booking_id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason: { type: string }
+      responses:
+        "200":
+          description: The cancelled booking
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  booking: { $ref: "#/components/schemas/Booking" }
+
+  /calls:
+    get:
+      operationId: listCalls
+      summary: List phone calls, including any waiting for the user's approval
+      responses:
+        "200":
+          description: Calls with their status and transcript
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  calls:
+                    type: array
+                    items: { $ref: "#/components/schemas/Call" }
+
+  /calls/{call_id}/approve:
+    post:
+      operationId: approveCall
+      summary: Approve a staged call so the assistant actually dials it
+      description: >
+        Only call this after the user has clearly said yes to this specific call.
+        It causes a real phone to ring.
+      parameters:
+        - name: call_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Dialling
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+                  call_id: { type: string }
+                  status: { type: string }
+
+components:
+  schemas:
+    Booking:
+      type: object
+      properties:
+        id: { type: string }
+        business_name: { type: string }
+        kind: { type: string }
+        starts_at: { type: string }
+        party_size: { type: integer }
+        status:
+          type: string
+          description: requested, confirmed or cancelled
+        confirmation_ref: { type: string }
+        notes: { type: string }
+    Call:
+      type: object
+      properties:
+        id: { type: string }
+        business_name: { type: string }
+        to_number: { type: string }
+        objective: { type: string }
+        status:
+          type: string
+          description: awaiting_approval, dialing, in_progress, completed, declined
+        outcome: { type: string }
+        transcript:
+          type: array
+          items:
+            type: object
+            properties:
+              speaker: { type: string }
+              text: { type: string }
+
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+security:
+  - apiKeyAuth: []
